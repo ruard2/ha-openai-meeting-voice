@@ -1,0 +1,12 @@
+{
+  "name": "Ruard OpenAI Voice & Meeting Recorder",
+  "url": "https://github.com/ruard2/ha-openai-meeting-voice",
+  "maintainer": "Ruard (ruard2)",
+  "addons": [
+    {
+      "slug": "ruard_openai_meeting_voice",
+      "name": "Ruard OpenAI Voice & Meeting Recorder",
+      "version": "0.7.1"
+    }
+  ]
+}

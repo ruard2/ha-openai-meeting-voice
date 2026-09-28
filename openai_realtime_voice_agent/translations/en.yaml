@@ -1,0 +1,230 @@
+# User-facing names + help for the Configuration tab. The emoji prefixes are
+# the only "grouping" HA's add-on UI supports — they match the order/groups in
+# config.yaml. Keep descriptions PRACTICAL: what it does, when to change it,
+# what value makes sense. A Dutch version lives in nl.yaml.
+configuration:
+  # --- 🔑 Basics ---
+  openai_api_key:
+    name: "🔑 Basics · OpenAI API key"
+    description: >-
+      Your personal OpenAI key (starts with sk-...). Create one at
+      platform.openai.com → API keys, and make sure billing is set up.
+      Everything the assistant does — listening, thinking, speaking, web
+      search — runs on this key.
+  instructions:
+    name: "🔑 Basics · Assistant personality (system prompt)"
+    description: >-
+      Plain-text instructions that shape the assistant: its personality, its
+      language, and your house rules. Write it like you'd brief a person. Two
+      tips that matter on a voice device: lock the language ("Speak and
+      understand only Dutch. Never switch language.") and tell it to use its
+      tools silently instead of saying "one moment". EDITING TIP: this field
+      is a single line here (a Home Assistant UI limitation) — for comfortable
+      editing use the ⋮ menu at the top of this tab → "Edit in YAML", which
+      gives you a full text editor.
+  transcription_language:
+    name: "🔑 Basics · Spoken language (e.g. nl, en, de)"
+    description: >-
+      Two-letter code of the language you speak to it. Setting it keeps the
+      assistant from drifting into other languages, AND writes what you said
+      into the add-on log (the 🗣️ lines — handy to check what it heard).
+      Leave empty for auto-detect (no user transcript in the log).
+
+  # --- 🗣️ Model & voice ---
+  openai_model:
+    name: "🗣️ Model & voice · Model"
+    description: >-
+      The OpenAI model that listens and talks. gpt-realtime-2 (default) is the
+      newest and smartest. gpt-realtime-mini is noticeably cheaper but less
+      capable. Want a model that's not listed? Pick "custom", then enable
+      "Show unused optional configuration options" at the bottom of this page
+      to reveal the custom field.
+  openai_model_custom:
+    name: "🗣️ Model & voice · Model (custom)"
+    description: >-
+      Only used when Model is set to "custom". Any valid OpenAI Realtime
+      model id. (Hidden by default — this is an expert escape hatch.)
+  openai_voice:
+    name: "🗣️ Model & voice · Voice"
+    description: >-
+      The voice it speaks with. marin and cedar are the newest and sound the
+      most natural. A running conversation keeps its voice — restart the
+      add-on after changing this. For an unlisted voice pick "custom" and
+      enable "Show unused optional configuration options" at the bottom.
+  openai_voice_custom:
+    name: "🗣️ Model & voice · Voice (custom)"
+    description: >-
+      Only used when Voice is set to "custom". Any valid OpenAI voice name.
+      (Hidden by default.)
+  openai_speed:
+    name: "🗣️ Model & voice · Speaking speed"
+    description: >-
+      1.0 = normal. Lower is slower and clearer (down to 0.25), higher is
+      faster (up to 1.5). Changes only the pace, not the words.
+  max_output_tokens:
+    name: "🗣️ Model & voice · Maximum answer length"
+    description: >-
+      Caps how long an answer may get, in tokens (≈ 0.75 words each).
+      0 = no cap. Set e.g. 1024 if it sometimes rambles on; too low cuts
+      answers off mid-sentence.
+
+  # --- 💬 Conversation ---
+  follow_up_listen_seconds:
+    name: "💬 Conversation · Follow-up listening (seconds)"
+    description: >-
+      After an answer the device keeps listening this long, so you can simply
+      keep talking — no wake word needed. The LED ring shows the listening
+      colour while it waits. 8 feels natural; 0 turns it off (wake word
+      before every question).
+  follow_up_open_delay_ms:
+    name: "💬 Conversation · Follow-up mic delay (ms)"
+    description: >-
+      Short pause between the end of an answer and the microphone re-opening,
+      so the speaker's last echo can't trigger a ghost question. 700 (default)
+      covers the speaker tail safely. Lowering it (300–500) makes the
+      hand-over snappier, but risks the assistant answering its own echo —
+      raise it back if it sometimes seems to answer nobody or repeats itself.
+  wake_open_delay_ms:
+    name: "💬 Conversation · Wake mic delay (ms)"
+    description: >-
+      The same echo guard right after the wake word: a short pause after the
+      wake chime before the microphone opens, so the chime's own sound can't
+      leak in and be mistaken for a question. 700 (default) is safe. Lower it
+      for a snappier wake, raise it if saying the wake word sometimes triggers
+      an answer to nothing.
+  vad_eagerness:
+    name: "💬 Conversation · Turn-taking speed"
+    description: >-
+      How quickly the assistant decides you've finished talking. "low"
+      (default) waits patiently — best if you pause mid-sentence to think.
+      "high" answers faster but may cut you off. "auto" lets OpenAI decide.
+  phase_idle_debounce_ms:
+    name: "💬 Conversation · End-of-answer hold (ms)"
+    description: >-
+      How long the assistant must stay silent before the device considers the
+      answer finished. This bridges the natural pauses between sentences and
+      during smart-home actions, so the LED and the "stop" word keep working
+      through the whole answer. 1500 is a good default; raise it if the
+      device flips to idle in the middle of long answers.
+
+  # --- 🌐 Web search ---
+  enable_web_search:
+    name: "🌐 Web search · Enable web search"
+    description: >-
+      Lets the assistant look things up online: weather, news, opening hours,
+      recent events. Each lookup is one extra OpenAI call on your key (a few
+      cents) and adds a couple of seconds. On by default.
+  web_search_model:
+    name: "🌐 Web search · Search model"
+    description: >-
+      The model that does the lookup and summarises the answer. gpt-5.5
+      (default) gives the best answers; mini/nano models are cheaper but miss
+      more. For an unlisted model pick "custom" and enable "Show unused
+      optional configuration options" at the bottom.
+  web_search_model_custom:
+    name: "🌐 Web search · Search model (custom)"
+    description: >-
+      Only used when Search model is set to "custom". Any model that supports
+      OpenAI's web_search tool. (Hidden by default.)
+
+  # --- 🎚️ Audio ---
+  playback_prebuffer_ms:
+    name: "🎚️ Audio · Playback buffer (ms)"
+    description: >-
+      How much of the answer the device collects before it starts playing. A
+      bigger buffer absorbs brief Wi-Fi hiccups (the occasional crackle), but
+      every answer starts this much later. 150 is a good balance; raise to
+      250–300 if you still hear crackle, 0 = play immediately.
+  noise_reduction:
+    name: "🎚️ Audio · Microphone noise reduction"
+    description: >-
+      Extra filtering of your voice before it reaches OpenAI. "off" is
+      usually fine — the device already filters. Try "near_field" if you
+      talk close to the device, "far_field" for across the room, when it
+      mishears you in a noisy environment.
+
+  # --- 🏠 Home Assistant ---
+  ha_mcp_url:
+    name: "🏠 Home Assistant · MCP server URL"
+    description: >-
+      How the assistant controls your home. Leave EMPTY (recommended): it
+      then uses Home Assistant's built-in "MCP Server" integration — install
+      that integration and expose your entities to Assist. Only fill in a URL
+      if you run the separate ha-mcp add-on instead.
+  longlived_token:
+    name: "🏠 Home Assistant · Access token"
+    description: >-
+      Leave empty (recommended): the add-on uses its own built-in permission.
+      Only create and paste a long-lived token (your HA profile → Security)
+      if the log shows a 401/403 error at startup.
+  mcp_tool_allowlist:
+    name: "🏠 Home Assistant · Tool allow-list"
+    description: >-
+      Comma-separated list of control tools the assistant may use; empty =
+      all of them. With the built-in MCP server you can leave this empty.
+      Mainly useful with the ha-mcp add-on (80+ tools) to keep conversations
+      fast and cheap.
+
+  # --- ⚙️ Advanced ---
+  websocket_port:
+    name: "⚙️ Advanced · Device port"
+    description: >-
+      The port the Voice PE connects to. Must match the va_url in the device
+      firmware (stable 8080, dev 8081). Only change this on a port clash —
+      and update the device firmware stub to match.
+  session_reuse_timeout_seconds:
+    name: "⚙️ Advanced · Conversation resume window (seconds)"
+    description: >-
+      If the device reconnects within this many seconds (Wi-Fi blip, add-on
+      restart), the conversation continues where it left off. 300 (5 min) is
+      a good default; 0 = always start fresh.
+  max_context_messages:
+    name: "⚙️ Advanced · Conversation memory size"
+    description: >-
+      How many recent exchanges the assistant remembers within a
+      conversation. More = better memory, but every answer re-bills the whole
+      history, so long chats get expensive and can hit OpenAI rate limits.
+      12 is a good balance; 0 = unlimited.
+  transcription_model:
+    name: "⚙️ Advanced · Transcript model"
+    description: >-
+      Only used when a spoken language is set (Basics). This model writes
+      your speech into the log as text — it does NOT affect how the assistant
+      understands you (it hears your actual voice). gpt-4o-transcribe
+      (default) is the most accurate. For an unlisted model pick "custom" and
+      enable "Show unused optional configuration options" at the bottom.
+  transcription_model_custom:
+    name: "⚙️ Advanced · Transcript model (custom)"
+    description: >-
+      Only used when Transcript model is set to "custom". (Hidden by
+      default.)
+  turn_detection_type:
+    name: "⚙️ Advanced · Turn detection (legacy)"
+    description: >-
+      How the end of your question is detected. Normally leave this UNSET:
+      the assistant then understands when your sentence is finished
+      (semantic_vad). "server_vad" is the old silence-timer method, tuned by
+      the three fields below — kept only as an escape hatch.
+  vad_threshold:
+    name: "⚙️ Advanced · server_vad: loudness threshold"
+    description: >-
+      Only with server_vad. How loud something must be to count as speech
+      (0–1, default 0.5). Higher = fewer false triggers from background
+      noise.
+  vad_prefix_padding_ms:
+    name: "⚙️ Advanced · server_vad: lead-in (ms)"
+    description: >-
+      Only with server_vad. Audio kept from just before speech was detected,
+      so your first word isn't clipped (default 300).
+  vad_silence_duration_ms:
+    name: "⚙️ Advanced · server_vad: silence to end turn (ms)"
+    description: >-
+      Only with server_vad. How long a silence ends your question (default
+      800). Raise it if you get cut off while pausing.
+
+  # --- 🔍 Debug ---
+  enable_recording:
+    name: "🔍 Debug · Record audio"
+    description: >-
+      Saves microphone and speaker audio to files inside the add-on, for
+      troubleshooting only. Leave off normally.
