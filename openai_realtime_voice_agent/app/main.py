@@ -648,7 +648,9 @@ class Application:
                 "If yes, collect exactly that many names. Only then call start_meeting_recording. "
                 "After it starts, tell each person to say 'Mijn naam is <naam>' one at a time. "
                 "When the user says stop recording/opname stoppen, immediately call "
-                "stop_meeting_recording. Never pretend a recording started or stopped without the tool."
+                "stop_meeting_recording. Call both meeting tools SILENTLY: never say a preamble before "
+                "the tool call. After success say at most two words ('Opname gestart' or 'Opname gestopt'). "
+                "Never pretend a recording started or stopped without the tool."
             )
             session_properties = SessionProperties(
                 instructions=self.instructions + meeting_instructions,

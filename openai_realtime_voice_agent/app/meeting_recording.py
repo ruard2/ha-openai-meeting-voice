@@ -96,10 +96,10 @@ class MeetingRecordingService:
         if identify:
             joined = ", ".join(clean_names)
             return (
-                "De opname loopt. Laat nu iedereen één voor één zeggen: mijn naam is, gevolgd door de naam. "
-                f"Ik verwacht: {joined}."
+                "Zeg uitsluitend 'Opname gestart'. Daarna moeten de deelnemers zonder verdere "
+                f"assistentspraak één voor één zeggen: mijn naam is [naam]. Namen: {joined}."
             )
-        return "De opname loopt. Sprekers worden aangeduid als Spreker 1, Spreker 2, enzovoort."
+        return "Zeg uitsluitend: Opname gestart."
 
     def on_wake(self) -> None:
         if self.active:
@@ -126,7 +126,7 @@ class MeetingRecordingService:
         wav_path = self._wav_path
         logger.info("⏹️ Meeting recording stopped (%s): %s", reason, wav_path)
         asyncio.create_task(self._transcribe_and_store(wav_path, dict(self._meta)))
-        return "De opname is gestopt. Ik maak nu het volledige transcript; dit kan enkele minuten duren."
+        return "Zeg uitsluitend: Opname gestopt."
 
     def finalize_for_shutdown(self) -> None:
         """Make an interrupted recording playable without deleting it."""

@@ -1,5 +1,5 @@
 name: Ruard OpenAI Voice & Meeting Recorder
-version: "0.7.1"
+version: "0.7.2"
 slug: ruard_openai_meeting_voice
 description: OpenAI realtime voice, Home Assistant control, and privacy-first meeting recording for the Home Assistant Voice PE.
 url: https://github.com/ruard2/ha-openai-meeting-voice

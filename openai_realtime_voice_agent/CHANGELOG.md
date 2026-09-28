@@ -227,3 +227,7 @@ Current templates for reference:
 
 - Keep meeting state across Voice PE reconnects.
 - Finalize the WAV safely when the add-on is stopped during a meeting.
+## 0.7.2
+
+- Keep recording confirmations extremely short to avoid full-duplex Voice PE audio contention.
+- Forbid spoken preambles before start/stop recording tool calls.
